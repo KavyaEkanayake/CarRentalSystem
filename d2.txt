@@ -1,0 +1,62 @@
+namespace CarRentalSystem
+{
+    public partial class Driver : Form
+    {
+        public Driver()
+        {
+            InitializeComponent();
+        }
+
+        //Connect the SQL Server
+        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Kavya\Documents\CarRentaldb.mdf;Integrated Security=True;Connect Timeout=30");
+
+
+        private void lblExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //To Display the Values in Grid View
+       /* private void populate()
+        {
+            Con.Open();
+            string query = "select * from DRIVER ";
+            SqlDataAdapter dAdapt = new SqlDataAdapter(query, Con);
+            SqlCommandBuilder cmdBuilder = new SqlCommandBuilder(dAdapt);
+            var dSet = new DataSet();
+            dAdapt.Fill(dSet);
+            DriversListGridView.DataSource = dSet.Tables[0];
+            Con.Close();
+        }*/
+
+        private void btnAddDriver_Click(object sender, EventArgs e)
+        {
+            if (txtDriverId.Text == "" || txtDriverName.Text == "" || txtDriverAddress.Text == "" ||txtDriverNIC.Text == "" || txtDriverPhone.Text == "" || txtDriverLicenseNo.Text == "")
+            {
+                MessageBox.Show("Missing Information");
+            }
+            else
+            {
+               try
+                {
+                    Con.Open();
+                    string query = "insert into DRIVER values('" + txtDriverId.Text + "','" + txtDriverName.Text + "','" + txtDriverAddress.Text + "','" + txtDriverNIC.Text + "','" + cmbBoxGender.SelectedValue.ToString() + "','" + DriverBirthday.Text + "','" + txtDriverPhone.Text + "','" + txtDriverLicenseNo.Text + "')";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Driver Successfully Added");
+                    Con.Close();
+                   // populate();
+                }
+                catch (Exception myEx)
+                {
+                    MessageBox.Show(myEx.Message);
+                }
+            }
+        }
+
+        private void Driver_Load(object sender, EventArgs e)
+        {
+            //populate();
+        }
+    }
+}

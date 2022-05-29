@@ -1,0 +1,36 @@
+private void btnAddCar_Click(object sender, EventArgs e)
+{
+	if (txtDriverId.Text == "" || txtDriverName.Text == "" || txtDriverAddress.Text == "" ||txtDriverNIC.Text == "" || txtDriverPhone.Text == "" || txtDriverLicenseNo.Text == "")
+    	{
+		MessageBox.Show("Missing Information");
+	}
+	else
+    	{
+        try
+        {	
+		using (var con = new SqlConnection(<your connectionstring goes here>)
+            	{
+			con.Open();
+               		string query = "INSERT INTO DRIVER(DriverID,DName,DAddress,NIC,Gender,DOB,Phone,LicenseNo) VALUES(@DId,@Dname,@Daddress,@nic,@gender,@dob,@phone,@LNo)";
+              		using (var cmd = new SqlCommand(query, con)
+                	{
+ 				cmd.Parameters.Add("@DId").Value = txtModel.Text;
+				cmd.Parameters.Add("@Dname").Value = txtModel.Text;
+				cmd.Parameters.Add("@Daddress").Value = txtColor.Text;
+				cmd.Parameters.Add("@nic").Value = txtFuelType.Text;
+ 				cmd.Parameters.Add("@gender").Value = cmbBoxAvailable.SelectedItem.ToString();
+				cmd.Parameters.Add("@dob").Value = txtPrice.Text;
+				cmd.Parameters.Add("@phone").Value = txtPrice.Text;
+				cmd.Parameters.Add("@LNo").Value = txtPrice.Text;
+				cmd.ExecuteNonQuery();
+                    		MessageBox.Show("Car Successfully Added");
+                	}
+                	populate();
+            	}
+        }	
+        catch (Exception myEx)
+        {
+            MessageBox.Show(myEx.Message);
+        }
+    }
+}

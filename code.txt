@@ -1,0 +1,13 @@
+sqlCommand command;
+sqlDataAdapter adapter = new SqlDataAdapter();
+String sql = "";
+
+sql = "Insert into CAR () values()";
+
+command = new SqlCommand(sql,con);
+
+adapter.InsertCommand = new SqlCommand(sql, con);
+adapter.InsertCommand.ExecuteNonQuery();
+
+command.Dispose();
+con.Close();

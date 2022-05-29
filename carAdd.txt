@@ -1,0 +1,34 @@
+private void btnAddCar_Click(object sender, EventArgs e)
+{
+    if (txtCarId.Text == "" || txtModel.Text == "" || txtColor.Text == "" || txtFuelType.Text == "" || txtPrice.Text == "")
+    {
+        MessageBox.Show("Missing Information");
+    }
+    else
+    {
+        try
+        {
+            using (var con = new SqlConnection(<your connectionstring goes here>)
+            {
+                con.Open();
+                string query = "INSERT INTO CAR(CarID,Model,Color,FuelType,Available,Price) VALUES(@CarID,@Model,@Color,@FuelType,@Available,@Price)";
+                using (var cmd = new SqlCommand(query, con)
+                {
+                    cmd.Parameters.Add("@CarID").Value = txtModel.Text;
+                    cmd.Parameters.Add("@Model").Value = txtModel.Text;
+                    cmd.Parameters.Add("@Color").Value = txtColor.Text;
+                    cmd.Parameters.Add("@FuelType").Value = txtFuelType.Text;
+                    cmd.Parameters.Add("@Available").Value = cmbBoxAvailable.SelectedItem.ToString();
+                    cmd.Parameters.Add("@Price").Value = txtPrice.Text;
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Car Successfully Added");
+                }
+                populate();
+            }
+        }
+        catch (Exception myEx)
+        {
+            MessageBox.Show(myEx.Message);
+        }
+    }
+}
